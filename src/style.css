@@ -1,0 +1,52 @@
+.me {
+  margin: 10px 20px;
+  height: 30px;
+}
+
+/* .navCtrl{
+	width: 430px;
+} */
+footer {
+  background-color: #FFEFC7;
+  text-align: center;
+  line-height: 40px;
+}
+
+#text img {
+  filter: brightness(0.7);
+}
+
+#text img:hover {
+  filter: brightness(1);
+  transform: scale(0.9, 0.9);
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.cart {
+  position: fixed;
+  bottom: 50%;
+  right: 30px;
+  border-radius: 50px;
+}
+.row,
+.col-12,.col-6,.col-3 {
+  box-sizing: border-box;
+}
+.row {
+  display: flex;
+}
+.col-12{
+  width:100%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-3 {
+  width: 25%;
+}
+li{
+  display:inline-block;
+  position:relative;
+  right:10px;
+}
