@@ -1,73 +1,92 @@
 <script setup>
+import CosLayout from '@/components/cosLayout/index.vue'
+import { ref } from 'vue';
+import aboutCard from '@/components/aboutCard/index.vue'
+
+const aboutCards = ref([
+	{
+		image: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQHFKP5wIy8hZoKCyGmFqmuOVxiwBypbt27LRMuB4Y2TC3gxAEQ',
+		title: '友善環境'
+	},
+	{
+		image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTc85qZ2hJh6T4-Yepsfo0LshAJ5X-lTZnT-S1NYVs3crOgMz9n',
+		title: '有機認證',
+		isReverse: true
+	},
+	{
+		image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQyIU22C6mXSUgaIdf7opxpUDJSzJtMMCOXN6fy1OKZ83eylbL',
+		title: '超保濕'
+	},
+	{
+		image: 'https://cdn-icons-png.flaticon.com/128/8459/8459607.png',
+		title: '完美修護',
+		isReverse: true
+	}
+])
+const modalDes = ref([
+	{
+		title:'友善環境',
+		desc:'秉持ESG企業原則，產品包裝皆為環境可分解之產物，在使用產品時也同時在愛護地球。'
+	},
+	{
+		title:'有機認證',
+		desc:'所使用的原料皆為有機認證的純原料。'
+	},
+	{
+		title:'超保濕',
+		desc:'含有盧繪等成分高保濕效果。'
+	},
+	{
+		title:'完美修護',
+		desc:'成分含有自由基能完美修復肌膚。'
+	}
+])
+const value19 = ref([
+	{
+		title:String,
+		default:'請輸入姓名'
+	}
+])
+const value20 = ref([
+	{
+		title:String,
+		default:'請輸入信箱'
+	}
+])
 </script>
 
 <template>
-  <p>About</p>
-  <nav class="navbar  fixed-top navbar-expand-md px-3">
-		<h1 class="navbar-brand p-2 m-1 fw-bold" style="font-size:30px;"><a href="index.html" class="nav-link">Cosmetic</a></h1>
-		<button class="navbar-toggler ctrl" data-bs-toggle="collapse" data-bs-target=".collapse">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+	<cos-layout>
 
-		<div class="navbar-collapse collapse justify-content-end fw-bold "style="font-size:17px;">
-			<ul class="navbar-nav nav">
-				<li class="nav-item"><a href="index.html" class="nav-link " >首頁</a></li>
-				<li class="nav-item"><a href="about.html" class="nav-link text-warning" >關於我們</a></li>
-				<li class="nav-item"><a href="intro.html" class="nav-link " >產品介紹</a></li>
-				<li class="nav-item"><a href="cart.html" class="nav-link" ><img src="https://cdn-icons-png.flaticon.com/128/2838/2838895.png" alt="" style="width:20px;height:20px"></a></li>
-				<li class="nav-item"><a href="member.html" class="nav-link" ><img src="https://cdn-icons-png.flaticon.com/128/456/456283.png" alt="" style="width:20px;height:20px"></a></li>
-			</ul>
-		</div>
-	</nav>
-	<div class="container-fluid">
-		<div class="row" id="banner">
-			<div class="col p-0">
-			</div>
-		</div>
-    </div>
-	
-	<div id="exp" class="img-fluid">
-		<div class="row my-5 text-center">
-			<h1 class="mb-5 pb-5 py-5 fw-bold">關於我們</h1>
-			<div class="offset-md-3 col-12 col-md-3">
-				<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQHFKP5wIy8hZoKCyGmFqmuOVxiwBypbt27LRMuB4Y2TC3gxAEQ" alt="" class="img-fluid mx-auto d-block" >
-			</div>
-			<div class="col-12 col-md-3 text-center align-items-center">
-				<h5 class=" border-3 border-start py-3 text-muted" data-bs-toggle="modal" data-bs-target="#intro1">友善環境</h5>
-			</div>
-		
-			<div class="row d-flex justify-content-center">
-				<div class="col-12 col-md-3 text-center py-5 mt-5">
-					<h5 class="border-3 border-end py-3 mb-5 text-muted" data-bs-toggle="modal" data-bs-target="#intro2">有機認證</h5>
-				</div>
-				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQyIU22C6mXSUgaIdf7opxpUDJSzJtMMCOXN6fy1OKZ83eylbL" alt="" class="img-fluid p-3" style="width:190px;height:190px">
-			</div>
-			<div class="offset-md-3 col-12 col-md-3 ">
-				<img src="" alt="" class="img-fluid mx-auto d-block" >
-			</div>
-			<div class="col-12 col-md-3 text-center  py-3">
-				<h5 class="border-3 border-start py-3 mb-5 text-muted" data-bs-toggle="modal" data-bs-target="#intro3">超保濕</h5>
 
-			</div>
-		</div>
-			<div class="row d-flex justify-content-center">
-		<div class="col-12 col-md-3 text-center  ">
-			<h5 class="border-3 border-end  py-3 mb-5 text-muted" data-bs-toggle="modal" data-bs-target="#intro4">完美修護</h5>
-		</div>
-		<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ58CAsE5WK3cG8RvDnf8imlMTuXyvCNJy2CfxZw-ChU7IrtGli" alt="" class="img-fluid mt-3 p-3" style="width:100px;height:100px">
-	</div>
-
+	<div id="" class="">
+		<div class="my-5 text-center">
+			<h1 class="font-bold text-xl my-10">關於我們</h1>
+			<about-card class="mx-auto"
+			v-for="item in aboutCards"
+			:key="item.title"
+			:image="item.image"
+			:title="item.title"
+			:is-reverse="item.isReverse"
+			/>
+</div>
 </div>
 <div>
-	<div class="modal fade" id="intro1">
-		<div class="modal-dialog modal-lg modal-dialog-centered">
-			<div class="modal-body bg-white ">
+    <a-table :dataSource="dataSource" :columns="columns" />
+  </div>
+	<!-- <div class="modal fade" id="intro1">
+		<div class="modal-dialog modal-lg modal-dialog-centered"> -->
+			
+			<div v-for="(item, idx) in items"  :key="idx" class="">
+				<a-button type="" @click="showModal">友善環境</a-button> 
+				<a-modal v-model:open="open" title="Basic Modal" @ok="handleOk">
+      <p>哈囉</p>
+      <p>Some contents...</p>
+      <p>Some contents...</p>
+    
 				<h3 class="text-warning">友善環境</h3>
-				<p class="text-start">秉持ESG企業原則，產品包裝皆為環境可分解之產物，在使用產品時也同時在愛護地球。</p>
+				<p class="text-start">秉持ESG企業原則，產品包裝皆為環境可分解之產物，在使用產品時也同時在愛護地球。</p></a-modal>
 			</div>
-		</div>
-	</div>
-</div>
 <div>
 	<div class="modal fade" id="intro2">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
@@ -96,39 +115,25 @@
 			</div>
 		</div>
 	</div>
-	<!-- <form action="">
-		<fieldset >
-			<p>
-				<legend class="h5">與我們聯繫</legend><br>
-			</p>
-			<p>
-				<label for="name">您的姓名：</label><input type="text">
-			</p><br>
-			<p>
-				<label for="email">您的信箱：</label><input type="email">
-			</p><br>
-			<input type="submit" value="填好送出">
-		</fieldset>
-		<br>
-	</form> -->
+	
 	<form action="">
-		<fieldset>
+		<fieldset class="table-auto">
 			<h3>與我們聯繫</h3>
 			<input type="email" placeholder="請輸入您的電子郵件" ><input type="submit" value="填好送出"><br>
 			<input type="text" placeholder="請輸入您的姓名" ><input type="submit" value="填好送出">
 			<p class="text-center">免費拿試用品</p>
 		</fieldset>
 	</form>
-
-	<div class="row " style="background-color: #FFEFC7;">
-			<h6 class="my-3 text-center">聯絡我們<br>信箱:cosmetic@gmail.com</h6>
-			<div class="d-flex justify-content-center img-fluid position-absolute" style="width:10px height:10px">
-				<img src="https://cdn-icons-png.flaticon.com/128/1384/1384031.png" alt="" class="me">
-				<img src="https://cdn-icons-png.flaticon.com/128/1077/1077046.png" alt="" class="me">
-				<img src="https://cdn-icons-png.flaticon.com/128/13266/13266170.png" alt="" class="me">
-				<img src="https://cdn-icons-png.flaticon.com/128/167/167649.png" alt="" class="me">
-			</div>
-	 </div>
+		<h3>與我們聯繫</h3>
+	<a-input-group compact class="mx-2 my-2 w-[350px]">
+      <a-input v-model:value="value19" style="width: calc(100% - 200px)" />
+      <a-button type="primary">填好送出</a-button>
+    </a-input-group>
+		<a-input-group compact class="mx-2 my-2 w-[350px]">
+      <a-input  v-model:value="value20" style="width: calc(100% - 200px)" />
+      <a-button  type="primary">填好送出</a-button>
+    </a-input-group>
+</cos-layout>
 
 
 </template>
