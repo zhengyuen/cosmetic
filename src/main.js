@@ -7,5 +7,5 @@ import '@/assets/css/index.css'
 
 
 
-createApp(App).use(Antd).use(router).mount('#app')
+createApp(App).use(router).use(Antd).mount('#app')
 

@@ -8,35 +8,7 @@ const carouseImage = reactive([
 	'https://images.pexels.com/photos/6847873/pexels-photo-6847873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
 	'https://images.pexels.com/photos/4841529/pexels-photo-4841529.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
 ])
-// const menuList = ref([
-// 	{
-// 		key: '/',
-// 		name: '首頁'
-// 	},
-// 	{
-// 		key: '/about',
-// 		name: '關於我們'
-// 	},
-// 	{
-// 		key: '/products',
-// 		name: '產品介紹'
-// 	},
-// 	{
-// 		key: '/cart',
-// 		icon: 'cart'
-// 	},
-// 	{
-// 		key: '/member',
-// 		icon: 'member'
-// 	}
-// ])
-// const footerImages = ref([
-// 	'https://cdn-icons-png.flaticon.com/128/1384/1384031.png',
-// 	'https://cdn-icons-png.flaticon.com/128/1077/1077046.png',
-// 	'https://cdn-icons-png.flaticon.com/128/13266/13266170.png',
-// 	'https://cdn-icons-png.flaticon.com/128/167/167649.png'
 
-// ])
 const homeCards = ref([
 	{
 		image: 'https://images.pexels.com/photos/6847825/pexels-photo-6847825.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',

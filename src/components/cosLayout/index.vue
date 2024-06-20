@@ -1,6 +1,11 @@
 <script setup>
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const changePage = (url) => {
+	router.push(url)
+}
 const menuList = ref([
 	{
 		key: '/',
@@ -35,11 +40,11 @@ const footerImages = ref([
 <template>
   <nav class="container mx-auto h-[76px] ">
 		<div class="flex justify-between items-center">
-			<h1 class="text-4xl font-bold">
+			<h1 class="text-4xl font-bold cursor-pointer" @click="changePage('/')">
 			Cosmetic
 			</h1>
 			<ul class="flex items-center">
-				<li v-for="item in menuList" :key="item.key" class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0">
+				<li v-for="item in menuList" :key="item.key" class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0" @click="changePage(item.key)">
 					<span v-if="item.name">{{ item.name }}</span>
 					<template v-if="item.icon">
 						<ShoppingCartOutlined v-if="item.icon ==='cart'" />

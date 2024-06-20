@@ -1,5 +1,10 @@
 <script setup>
 import CosLayout from '@/components/cosLayout/index.vue'
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const changePage = (url) => {
+	router.push(url)
+}
 </script>
 
 <template>
@@ -7,11 +12,10 @@ import CosLayout from '@/components/cosLayout/index.vue'
 	<div class="container-fluid">
 		</div>
 	<div  class="text-center">
-		<h1 class="mb-3 mt-3 font-bold text-xl">我的購物車</h1>
+		<h1 class="mb-3 mt-3 font-bold text-2xl">我的購物車</h1>
 		<p>目前沒有商品在購物車喔!</p>
 			<img src="https://0206hom-cosmetic.netlify.app/image/pexels-photo-4841481.webp" alt="" class="w-[300px] h-[300px] rounded-full mx-auto">
-			<a href="https://0206hom-cosmetic.netlify.app/intro">
-			<button class="text-pink font-bold text-xl mb-5">繼續購物--></button></a>
+			<button class="text-pink font-bold text-xl mb-5" @click="changePage('/products')">繼續購物--></button>
 			</div>
 		<!-- <div  id="bgArea">
 
@@ -32,7 +36,7 @@ import CosLayout from '@/components/cosLayout/index.vue'
 					<input id="countnum" type="text" min="1" value="1">
 					<button id="plus"  onclick="adder()" value="+"/>+</button>
 				</div>	 -->	
-		
+
 		<div class="border border-2 text-center justify-content-center border-dotted">
 			<div class="">
 				<div class=" justify-content-center ">
