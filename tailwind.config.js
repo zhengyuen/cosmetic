@@ -11,7 +11,8 @@ export default {
         secondaryYellow: '#A0937D',
         pink: '#E1D2D2',
         footerColor:'#FFEFC7',
-        modalGray: 'rgba(33, 37, 41, 0.75)'
+        modalGray: 'rgba(33, 37, 41, 0.75)',
+        green:'#219C90'
       }
     },
   },

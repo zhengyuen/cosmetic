@@ -3,14 +3,12 @@ import CosLayout from '@/components/cosLayout/index.vue'
 </script>
 <template>
   <cos-layout>
-    <div class="flex font-bold">
-      <img class="w-[300px] h-[450px] mx-auto" src="https://images.pexels.com/photos/6847873/pexels-photo-6847873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
-
-  <a-tabs v-model:activeKey="activeKey" :tab-position="tabPosition" animated>
-    <a-tab-pane key="1" tab="Tab 1"><img class="w-[50px] h-[50px]" src="https://images.pexels.com/photos/6847873/pexels-photo-6847873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt=""></a-tab-pane>
-    <a-tab-pane key="2" tab="Tab 2"><img class="w-[50px] h-[50px]" src="https://images.pexels.com/photos/4841341/pexels-photo-4841341.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt=""></a-tab-pane>
-    <a-tab-pane key="3" tab="Tab 3"><img class="w-[50px] h-[50px]" src="https://images.pexels.com/photos/4841237/pexels-photo-4841237.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt=""></a-tab-pane>
-    <a-tab-pane key="4" tab="Tab 4"><img class="w-[50px] h-[50px]" src="https://images.pexels.com/photos/4841389/pexels-photo-4841389.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt=""></a-tab-pane>
+    <div class="flex font-bold ml-4 mb-4">
+  <a-tabs v-model:activeKey="activeKey" :tab-position="bottom" animated >
+    <a-tab-pane key="1" tab="Tab 1"><img class="w-[300px] h-[400px]" src="https://images.pexels.com/photos/6847873/pexels-photo-6847873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt=""></a-tab-pane>
+    <a-tab-pane key="2" tab="Tab 2"><img class="w-[300px] h-[400px]" src="https://images.pexels.com/photos/4841341/pexels-photo-4841341.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt=""></a-tab-pane>
+    <a-tab-pane key="3" tab="Tab 3"><img class="w-[300px] h-[400px]" src="https://images.pexels.com/photos/4841237/pexels-photo-4841237.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt=""></a-tab-pane>
+    <a-tab-pane key="4" tab="Tab 4"><img class="w-[300px] h-[400px]" src="https://images.pexels.com/photos/4841389/pexels-photo-4841389.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt=""></a-tab-pane>
   </a-tabs>
       <div class="m-4 w-[50%] mx-auto">
         <h1 class="text-2xl text-center m-3 font-bold">極保濕修護組</h1>

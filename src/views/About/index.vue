@@ -51,24 +51,17 @@ const form = reactive({
 			/>
 		</div>
 	</div>
-
-	<form action="">
-		<fieldset class="table-auto">
-			<h3>與我們聯繫</h3>
-			<input type="email" placeholder="請輸入您的電子郵件" ><input type="submit" value="填好送出"><br>
-			<input type="text" placeholder="請輸入您的姓名" ><input type="submit" value="填好送出">
-			<p class="text-center">免費拿試用品</p>
-		</fieldset>
-	</form>
-		<h3>與我們聯繫</h3>
+	<div class="w-[500px] h-[200px] mx-auto mb-2 bg-pink">
+		<h1>與我們聯繫(免費拿試用品)</h1>
 	<a-input-group compact class="mx-2 my-2 w-[350px]">
-      <a-input v-model:value="value19" style="width: calc(100% - 200px)" />
+      <a-input v-model:value="value19" style="width: calc(100% - 200px)" placeholder="請輸入您的信箱" />
       <a-button type="primary">填好送出</a-button>
     </a-input-group>
 		<a-input-group compact class="mx-2 my-2 w-[350px]">
-      <a-input  v-model:value="value20" style="width: calc(100% - 200px)" />
+      <a-input  v-model:value="value20" style="width: calc(100% - 200px)" placeholder="請輸入您的姓名" />
       <a-button  type="primary">填好送出</a-button>
     </a-input-group>
+	</div>
 </cos-layout>
 
 

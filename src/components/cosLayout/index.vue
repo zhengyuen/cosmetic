@@ -26,7 +26,11 @@ const menuList = ref([
 	{
 		key: '/member',
 		icon: 'member'
-	}
+	},
+	{
+		key: '/login',
+		name: '登入'
+	},
 ])
 const footerImages = ref([
 	'https://cdn-icons-png.flaticon.com/128/1384/1384031.png',
@@ -38,7 +42,7 @@ const footerImages = ref([
 </script>
 
 <template>
-  <nav class="container mx-auto h-[76px] ">
+  <nav class="container mx-auto h-[76px]">
 		<div class="flex justify-between items-center">
 			<h1 class="text-4xl font-bold cursor-pointer" @click="changePage('/')">
 			Cosmetic
