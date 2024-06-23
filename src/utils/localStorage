@@ -1,0 +1,7 @@
+export const addCart = (item) => {
+  localStorage.setItem('cart', JSON.stringify(item))
+}
+
+export const getCart = () => {
+  return JSON.parse(localStorage.getItem('cart')) || []
+}

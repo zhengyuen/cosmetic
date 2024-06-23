@@ -7,7 +7,12 @@ const changePage = (url) => {
 }
 const columns = [
 	{
-    title: '',
+		key: 'checkbox',
+		dataIndex: 'checkbox'
+	},
+	{
+		key:'image',
+    title: '圖片',
     dataIndex: 'image',
     width: 150,
   },
@@ -22,23 +27,29 @@ const columns = [
     width: 150,
   },
   {
+		key: 'number',
     title: '數量',
     dataIndex: 'number',
   },
 	{
     title: '總價',
     dataIndex: 'sum',
-  }
+  },
+	{
+		key: 'operation',
+		title: '操作',
+		dataIndex: 'operation'
+	}
 ];
 
-const data = [...Array(0)].map((_, i) => ({
-  key: i,
-	image:'https://0206hom-cosmetic.netlify.app/image/pexels-photo-4841481.webp',
+const data = [{
+  key: 1,
+	image: 'https://0206hom-cosmetic.netlify.app/image/pexels-photo-4841481.webp',
   name: '極保濕組合',
   prize: '$1,069',
   number: 1,
-	sum:'$1,069'
-}));
+	sum: '$1,069'
+}];
 </script>
 
 <template>
@@ -47,28 +58,36 @@ const data = [...Array(0)].map((_, i) => ({
 		</div>
 	<div  class="text-center">
 		<h1 class="mb-3 mt-3 font-bold text-2xl">我的購物車</h1>
-		<a-table
+		<a-table class="flex items-center"
     :columns="columns"
     :data-source="data"
-  />
-		<div class="flex border-5 w-[80%] h-[150px] bg-primaryYellow mx-auto justify-center">
-			<input type="checkbox" class="ml-5">
-			<img class="w-[70px] h-[100px] mx-5 my-auto" src="https://0206hom-cosmetic.netlify.app/image/pexels-photo-4841481.webp" alt="">
-			<p class="my-auto ml-2 font-bold">極保濕組合</p>
-			<div class="flex pl-1 my-auto">
-        <li class="list-none text-center w-[20px] h-[30px]">-</li>
-        <input class="w-[50px] h-[30px] text-center border-2" type="text" value="1">
-        <li class="list-none text-center w-[20px] h-[30px]">+</li>
+  >
+		<template #bodyCell="{ column, record }">
+			<template v-if="column.key === 'checkbox'">
+						<input type="checkbox" class="p-3">
+			</template>
+			<template v-if="column.key === 'image'">
+				<div >
+						<img :src="record.image" alt="image" class="object-fit  ">
+				</div>
+			</template>
+			<template v-if="column.key === 'number'">
+			<div class="flex pl-1 ">
+        <button class="list-none text-center w-[20px] h-[30px] bg-pink">+</button>
+        <input class="w-[50px] text-center border-2" type="text" :value="record.number">
+        <button class="list-none text-center w-[20px] h-[30px] bg-pink">-</button>
       </div>
-			<p class="my-auto ml-2">NT$1,069</p>
-			<p class="my-auto ml-2 underline underline-offset-4 text-red-500">刪除</p>
-		</div>
+			</template>
+			<template v-if="column.key === 'operation'" >
+						<a-button class="">刪除</a-button>
+			</template>
+		</template>
+	</a-table>
 		</div>
 			<hr class="w-[200px] mt-5 ">
 			<div class="text-right mr-32">
 				<p>總金額NT $1,069</p>
-			<a-button class="bg-black text-white mt-3" @click="changePage('/checkout')" >前往結帳</a-button><br>
-			<button class="text-pink font-bold text-xl my-3 " @click="changePage('/products')">繼續購物--></button>
+			<a-button class="bg-black text-white mt-3 mb-3" @click="changePage('/checkout')" >前往結帳</a-button><br>
 		</div>
 		<div class="border-2 text-center justify-content-center border-dotted">
 			<div class="">

@@ -39,11 +39,21 @@ const router = createRouter({
       name: 'member',
       component:() =>  import('@/views/Member/index.vue')
     },
-     {
+    {
       path: '/checkout',
       name: 'checkout',
       component:() =>  import('@/views/Checkout/index.vue')
     },
+    {
+      path: '/result',
+      name: 'result',
+      component:() =>  import('@/views/Result/index.vue')
+    },
+     {
+      path: '/notfound',
+      name: 'notfound',
+      component:() =>  import('@/views/Notfound/index.vue')
+    }
   ]
 })
 

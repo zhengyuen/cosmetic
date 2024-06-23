@@ -40,7 +40,7 @@ const onFinishFailed = (errorInfo) => {
 					@finishFailed="onFinishFailed"
 				>
 				<a-form-item class="w-[300px] mx-auto"
-					label="Username"
+					label="使用者帳號"
 					name="username"
 					:rules="[{ required: true, message: 'Please input your username!' }]"
 				>
@@ -48,7 +48,7 @@ const onFinishFailed = (errorInfo) => {
 				</a-form-item>
 
 				<a-form-item class="w-[300px] mx-auto"
-					label="Password"
+					label="密碼"
 					name="password"
 					:rules="[{ required: true, message: 'Please input your password!' }]"
 				>
