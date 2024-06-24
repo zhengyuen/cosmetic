@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios'
 import CosLayout from '@/components/cosLayout/index.vue'
 import { reactive } from 'vue';
 
@@ -20,6 +21,16 @@ const onFinish = (values) => {
 const onFinishFailed = (errorInfo) => {
   console.log('Failed:', errorInfo);
 };
+
+// username:'emilys',
+// password: 'emlypass',
+
+const login = async(username, password) => {
+    const data = await axios.post('https://dummyjson.com/auth/login' , {username, password})
+		console.log(data);
+  }
+
+	login('emilys', 'emlypass')
 </script>
 
 <template>

@@ -58,17 +58,17 @@ const data = [{
 		</div>
 	<div  class="text-center">
 		<h1 class="mb-3 mt-3 font-bold text-2xl">我的購物車</h1>
-		<a-table class="flex items-center"
+		<a-table
     :columns="columns"
     :data-source="data"
   >
 		<template #bodyCell="{ column, record }">
 			<template v-if="column.key === 'checkbox'">
-						<input type="checkbox" class="p-3">
+						<input type="checkbox" class="">
 			</template>
 			<template v-if="column.key === 'image'">
 				<div >
-						<img :src="record.image" alt="image" class="object-fit  ">
+						<img :src="record.image" alt="image" class="object-cover">
 				</div>
 			</template>
 			<template v-if="column.key === 'number'">
@@ -79,7 +79,7 @@ const data = [{
       </div>
 			</template>
 			<template v-if="column.key === 'operation'" >
-						<a-button class="">刪除</a-button>
+						<a-button>刪除</a-button>
 			</template>
 		</template>
 	</a-table>

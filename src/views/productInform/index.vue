@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { addCart, getCart } from '@/utils/localStorage.js'
+// import { addCart, getCart } from '@/utils/localStorage.js'
 import CosLayout from '@/components/cosLayout/index.vue'
 import { HeartOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
@@ -42,14 +42,14 @@ const tabImages = [
     }
   }
 
-  const addToCart = () =>{
-    const cart = getCart()
-    if(!cart.length) {
-      addCart(item)
-      return
-    }
+  // const addToCart = () =>{
+  //   const cart = getCart()
+  //   if(!cart.length) {
+  //     addCart(item)
+  //     return
+  //   }
     // if ()
-  }
+
 </script>
 <template>
   <cos-layout>
