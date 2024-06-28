@@ -15,9 +15,9 @@ const router = createRouter({
       component:() =>  import('@/views/Products/index.vue')
     },
     {
-      path: '/productInform',
-      name: 'productInform',
-      component:() =>  import('@/views/productInform/index.vue')
+      path: '/product/:id',
+      name: 'product',
+      component:() =>  import('@/views/product/index.vue')
     },
     {
       path: '/about',
@@ -49,11 +49,11 @@ const router = createRouter({
       name: 'result',
       component:() =>  import('@/views/Result/index.vue')
     },
-     {
+    {
       path: '/notfound',
       name: 'notfound',
       component:() =>  import('@/views/Notfound/index.vue')
-    }
+    },
   ]
 })
 

@@ -16,15 +16,18 @@ defineProps({
     default: ''
   },
   prize:{
-    type: String,
+    type: Number,
     default: ''
   },
   desc: String,
   default: ''
 })
-const emit = defineEmits(['btnClick'])
+const emit = defineEmits(['btnClick', 'imageClick'])
 const handelClick = () => {
   emit('btnClick')
+}
+const imageClick = () => {
+  emit('imageClick')
 }
 // const open = ref(false)
 
@@ -35,9 +38,9 @@ const handelClick = () => {
 <template>
       <div class="w-[240px] h-[500px] text-center">
 				<img
-        :src="image" alt=""  @click="changePage('/productInform')" class="w-[200px] h-[290px] mx-4 cursor-pointer duration-500  hover:scale-95 hover:brightness-75 ">
-				<h5 class="">{{ title }}</h5>
-				<h6 >{{ prize }}</h6>
+        :src="image" alt=""  @click="imageClick" class="w-[200px] h-[290px] mx-4 cursor-pointer duration-500  hover:scale-95 hover:brightness-75 ">
+				<h5>{{ title }}</h5>
+				<h6>{{ `NT$ ${prize}` }}</h6>
 				<a-button class="bg-black" type="primary" @click="handelClick">加入購物車</a-button>
 			</div>
   <!-- <a-modal v-model:open="open" :title="title" @ok="showModal(false)" :closable="false">

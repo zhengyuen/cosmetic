@@ -64,6 +64,7 @@ const footerImages = ref([
 				<div class="flex justify-center">
 					<img class="w-[30px] h-[30px] my-3 mx-4" v-for="(item, idx) in footerImages" :key="idx" :src="item" :alt="idx">
 					</div>
+					<!-- <h6 class="text-right py-4">© 2024 Cosmetic All Right Reserved</h6> -->
 		</footer>
 </template>
 
