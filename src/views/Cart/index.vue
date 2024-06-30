@@ -54,8 +54,7 @@ const data = [{
 
 <template>
 	<cos-layout>
-	<div class="container-fluid">
-		</div>
+	<div class="container mx-auto">
 	<div  class="text-center">
 		<h1 class="mb-3 mt-3 font-bold text-2xl">我的購物車</h1>
 		<a-table
@@ -64,11 +63,11 @@ const data = [{
   >
 		<template #bodyCell="{ column, record }">
 			<template v-if="column.key === 'checkbox'">
-						<input type="checkbox" class="">
+						<input type="checkbox" class="relative">
 			</template>
 			<template v-if="column.key === 'image'">
 				<div >
-						<img :src="record.image" alt="image" class="object-cover">
+						<img :src="record.image" alt="image" class="object-cover tableImage w-[80px] absolute top-1">
 				</div>
 			</template>
 			<template v-if="column.key === 'number'">
@@ -83,6 +82,7 @@ const data = [{
 			</template>
 		</template>
 	</a-table>
+	</div>
 		</div>
 			<hr class="w-[200px] mt-5 ">
 			<div class="text-right mr-32">
@@ -110,5 +110,4 @@ const data = [{
 </template>
 
 <style scoped>
-
 </style>

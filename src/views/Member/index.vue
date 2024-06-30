@@ -18,12 +18,13 @@ import { UserOutlined, ArrowDownOutlined, CheckCircleOutlined  } from '@ant-desi
       <a-avatar :size="64">
       <template #icon><UserOutlined /></template>
       </a-avatar>
-      <h1 class="font-bold">我的檔案</h1>
-      <p class="mt-4">帳號:xxx</p>
-      <p>姓名:xxx</p>
-      <p>電話:09xxxxxxxx</p>
-      <p>地址:台北市大同區xxxx</p>
-      <p>信箱:fjdsfj@gmail.com</p>
+      <h1 class="font-bold">我的檔案</h1><button>上傳照片</button>
+      <p class="mt-4">帳號: xxx</p>
+      <span>姓名:</span><input type="text"  class="border-2 rounded ml-2 mt-1"><br>
+      <span>電話:</span><input type="text"  class="border-2 rounded ml-2 mt-1"><br>
+      <span>地址:</span><input type="text"  class="border-2 rounded ml-2 mt-1"><br>
+        <span>信箱:</span><input type="text"  class="border-2 rounded ml-2 mt-1"><br><br>
+        <button class="bg-black text-white rounded w-10">確認</button>
       </div>
     </a-tab-pane>
   </a-tabs>
