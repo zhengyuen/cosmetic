@@ -1,24 +1,33 @@
 <script setup>
-import CosLayout from '@/components/cosLayout/index.vue'
 import { useRouter } from 'vue-router';
+import { useProductStore } from '@/store/product';
+import { ref,computed } from 'vue'
+
+const productStore = useProductStore()
+const cart = ref(productStore.cart)
 const router = useRouter()
+
 const changePage = (url) => {
 	router.push(url)
 }
+
+const totalPrize = computed(() => {
+	let price = 0
+	for (const item of productStore.cart) {
+		price += item.quantity * item.prize
+	}
+	return price
+})
 const columns = [
 	{
-		key: 'checkbox',
-		dataIndex: 'checkbox'
-	},
-	{
-		key:'image',
+		key:'cover',
     title: '圖片',
-    dataIndex: 'image',
+    dataIndex: 'cover',
     width: 150,
   },
   {
     title: '商品',
-    dataIndex: 'name',
+    dataIndex: 'title',
     width: 150,
   },
   {
@@ -27,13 +36,14 @@ const columns = [
     width: 150,
   },
   {
-		key: 'number',
+		key: 'quantity',
     title: '數量',
-    dataIndex: 'number',
+    dataIndex: 'quantity',
   },
 	{
+		key: 'total',
     title: '總價',
-    dataIndex: 'sum',
+    dataIndex: 'total',
   },
 	{
 		key: 'operation',
@@ -41,44 +51,53 @@ const columns = [
 		dataIndex: 'operation'
 	}
 ];
+const adjustQuantity = (id, num) => {
+	cart.value = cart.value.map(product => {
+		if (product.id === id) {
+			if(product.quantity > 0 || ( product.quantity === 0 && num > 0)) {
+			product.quantity += num
+			}
+			return product
+		}if(product.quantity === 0){
+			const newCart = productStore.cart.filter(product => product.id !== id)
+			productStore.setCart(newCart)
+			cart.value = newCart
+		}
+		return product
+	})
+}
+const deleteProduct = (id) => {
+	const newCart = productStore.cart.filter(product => product.id !== id)
+	productStore.setCart(newCart)
+	cart.value = newCart
 
-const data = [{
-  key: 1,
-	image: 'https://0206hom-cosmetic.netlify.app/image/pexels-photo-4841481.webp',
-  name: '極保濕組合',
-  prize: '$1,069',
-  number: 1,
-	sum: '$1,069'
-}];
+}
 </script>
 
 <template>
-	<cos-layout>
 	<div class="container mx-auto">
 	<div  class="text-center">
 		<h1 class="mb-3 mt-3 font-bold text-2xl">我的購物車</h1>
 		<a-table
     :columns="columns"
-    :data-source="data"
+    :data-source="cart"
   >
 		<template #bodyCell="{ column, record }">
-			<template v-if="column.key === 'checkbox'">
-						<input type="checkbox" class="relative">
+			<template v-if="column.key === 'cover'">
+				<img :src="record.cover" alt="image" class="object-cover w-[80px] h-[80px]">
 			</template>
-			<template v-if="column.key === 'image'">
-				<div >
-						<img :src="record.image" alt="image" class="object-cover tableImage w-[80px] absolute top-1">
-				</div>
+			<template v-if="column.key ==='total'">
+					{{ `$ ${record.prize * record.quantity}` }}
 			</template>
-			<template v-if="column.key === 'number'">
-			<div class="flex pl-1 ">
-        <button class="list-none text-center w-[20px] h-[30px] bg-pink">+</button>
-        <input class="w-[50px] text-center border-2" type="text" :value="record.number">
-        <button class="list-none text-center w-[20px] h-[30px] bg-pink">-</button>
+			<template v-if="column.key === 'quantity'">
+			<div class="flex pl-1">
+        <button class="list-none text-center w-[20px] h-[30px] bg-pink" @click="adjustQuantity(record.id, 1)">+</button>
+        <input class="w-[50px] text-center border-2" type="text" :value="record.quantity">
+        <button class="list-none text-center w-[20px] h-[30px] bg-pink" @click="adjustQuantity(record.id, -1)">-</button>
       </div>
 			</template>
 			<template v-if="column.key === 'operation'" >
-						<a-button>刪除</a-button>
+						<a-button @click="deleteProduct(record.id)">刪除</a-button>
 			</template>
 		</template>
 	</a-table>
@@ -86,7 +105,7 @@ const data = [{
 		</div>
 			<hr class="w-[200px] mt-5 ">
 			<div class="text-right mr-32">
-				<p>總金額NT $1,069</p>
+				<p>總金額NT ${{ totalPrize }}</p>
 			<a-button class="bg-black text-white mt-3 mb-3" @click="changePage('/checkout')" >前往結帳</a-button><br>
 		</div>
 		<div class="border-2 text-center justify-content-center border-dotted">
@@ -106,8 +125,11 @@ const data = [{
 				</div>
 			</div>
 			</div>
-	</cos-layout>
 </template>
 
 <style scoped>
+.ant-table-cell {
+	display: flex;
+	align-items: center;
+}
 </style>

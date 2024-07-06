@@ -1,40 +1,67 @@
 <script setup>
-import CosLayout from '@/components/cosLayout/index.vue'
-import { ref, computed } from 'vue';
-import ProductsCard from '@/components/productsCard/index.vue'
-import { useRouter, useRoute } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { productApi } from '@/api/products'
+import { message } from 'ant-design-vue';
+import { useProductStore } from '@/store/product';
+import ProductsCard from '@/components/productsCard/index.vue'
 
+
+const productStore = useProductStore()
 const router = useRouter()
-
-const route = useRoute()
 
 const changePage = (url) => {
 	router.push(url)
 }
 
-const products = ref([])
+const products = ref(productStore.products || [])
+console.log(products.value);
 const getProductData = async() => {
 	const { code, data } = await productApi.getProducts()
 	if (code === 200){
 		products.value = data
-		localStorage.setItem('products', JSON.stringify(data))
+    productStore.setProducts(data)
 	}
 }
-getProductData()
 
-const productId = ref(Number(route.params.id))
-const productItem = ref(JSON.parse(localStorage.getItem('products') || []))
-const product = computed(() => productItem.value.find(product => product.id === productId.value))
+const addCart = (id) => {
+const product = productStore.products.find(product => product.id === id)
+if (!productStore.cart) { // 購物車沒東西
+	productStore.setCart([{
+		...product,
+		quantity: 1
+	}])
+	return
+}
 
 
-const newProductItemUp = [productItem.value[0],productItem.value[1],productItem.value[2]]
-const newProductItemDown = [productItem.value[3],productItem.value[4],productItem.value[5]]
+const hasProduct = productStore.cart.some(product => product.id === id)
+if (hasProduct) { //cart 有產品
+	const newCart = productStore.cart.map(product	=> {
+			if (product.id === id){
+				product.quantity += 1
+				return product
+			}
+			return product
+		})
+		productStore.setCart(newCart)
+} else { // cart 沒有產品
+	productStore.setCart([...productStore.cart, {
+		...product,
+		quantity: 1
+	}])
+}
+message.success('已加入購物車')
+}
 
+onMounted(() => {
+	if (!products.value.length){
+		getProductData()
+	}
+})
 
 </script>
 <template>
-<cos-layout>
 
 	<div class="container">
 		</div>
@@ -43,16 +70,19 @@ const newProductItemDown = [productItem.value[3],productItem.value[4],productIte
 			<ins class="text-pink font-bold text-xl my-5">經典組合</ins></h3>
 			<div >
 			<div class="flex justify-center">
+				<template v-for="(item, idx) in products">
 				<products-card
+				v-if="idx < 3"
 				class="mx-4"
-				v-for="item in newProductItemUp"
 				:key="item.title"
 				:image="item.cover"
 				:title="item.title"
 				:prize="item.prize"
 				:desc="item.desc"
-				@image-click="changePage(`/product/${item.id}`)" @btn-click="changePage('/cart')"
+				@image-click="changePage(`/product/${item.id}`)"
+				@btn-click="addCart(item.id)"
 				/>
+				</template>
 			</div>
 			</div>
 			<div class="text-center justify-content-center">
@@ -61,17 +91,17 @@ const newProductItemDown = [productItem.value[3],productItem.value[4],productIte
 			</div>
 			<div class="flex justify-center">
 				<products-card
-				v-for="item in newProductItemDown"
+				v-for="item in products.filter((_,idx) => idx > 2 && idx < 6)"
 				class="mx-4"
-				:key="item.title"
+				:key="item.id"
 				:image="item.cover"
 				:title="item.title"
 				:prize="item.prize"
 				:desc="item.desc"
-				@btn-click="changePage('/cart')"
+				@image-click="changePage(`/product/${item.id}`)"
+				@btn-click="addCart(item.id)"
 				/>
 		</div>
-		</cos-layout>
 </template>
 
 <style scoped>

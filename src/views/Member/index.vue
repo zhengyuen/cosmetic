@@ -1,9 +1,7 @@
 <script setup>
-import CosLayout from '@/components/cosLayout/index.vue'
 import { UserOutlined, ArrowDownOutlined, CheckCircleOutlined  } from '@ant-design/icons-vue';
 </script>
 <template>
-  <cos-layout>
     <h1 class="fw-bold text-center font-bold text-2xl my-5">會員</h1>
     <a-tabs v-model:activeKey="activeKey" animated >
     <a-tab-pane key="1" tab="訂單查詢" class="text-center">
@@ -28,5 +26,4 @@ import { UserOutlined, ArrowDownOutlined, CheckCircleOutlined  } from '@ant-desi
       </div>
     </a-tab-pane>
   </a-tabs>
-  </cos-layout>
 </template>

@@ -1,8 +1,11 @@
 <script setup>
+import CosLayout from '@/components/cosLayout/index.vue'
 </script>
 
 <template>
-  <router-view/>
+  <cos-layout>
+    <router-view/>
+  </cos-layout>
 </template>
 
 <style scoped>

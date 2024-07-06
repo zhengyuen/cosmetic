@@ -1,29 +1,35 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 // import { addCart, getCart } from '@/utils/localStorage.js'
-import CosLayout from '@/components/cosLayout/index.vue'
+import { useProductStore } from '@/store/product';
 import { HeartOutlined } from '@ant-design/icons-vue';
 import { useRouter, useRoute } from 'vue-router';
+import { message } from 'ant-design-vue';
 
+
+const productStore = useProductStore()
 const router = useRouter()
 const route = useRoute()
 const productId = ref(Number(route.params.id))
 const changePage = (url) => {
 	router.push(url)
 }
-const products = ref(JSON.parse(localStorage.getItem('products') || []))
+// const products = ref(JSON.parse(localStorage.getItem('products') || []))
+const products = ref(productStore.products || [])
 const product = computed(() => products.value.find(product => product.id === productId.value))
 const tabImages = ref(product.value.images || [])
-const tabTitle = ref(product.value.title)
+const title = ref(product.value.title)
 const tabPrize = ref(product.value.prize)
+console.log(products)
+console.log(productId.value)
 
 console.log(product.value.title)
   const tabImageIndex = ref(0)
   const changeImage = (index) => {
     tabImageIndex.value = index
   }
-  const tabImage = computed(() => tabImages.value[tabImageIndex.value])
-
+  const cover = computed(() => tabImages.value[tabImageIndex.value])
+ console.log(cover)
   const amount = ref(1)
   const plus = () => {
     amount.value += 1
@@ -33,6 +39,7 @@ console.log(product.value.title)
       amount.value -= 1
     }
   }
+  console.log(amount.value)
   // const addToCart = () =>{
   //   const cart = getCart()
   //   if(!cart.length) {
@@ -41,15 +48,50 @@ console.log(product.value.title)
   //   }
     // if ()
 
+const addCart = (id) => {
+const product = productStore.products.find(product => product.id === id)
+if (!productStore.cart) { // 購物車沒東西
+	productStore.setCart([{
+		...product,
+		quantity: 1
+	}])
+	return
+}
+
+
+const hasProduct = productStore.cart.some(product => product.id === id)
+if (hasProduct) { //cart 有產品
+	const newCart = productStore.cart.map(product	=> {
+			if (product.id === id){
+				product.quantity += 1
+				return product
+			}
+			return product
+		})
+		productStore.setCart(newCart)
+} else { // cart 沒有產品
+	productStore.setCart([...productStore.cart, {
+		...product,
+		quantity: 1
+	}])
+}
+message.success('已加入購物車')
+}
+
+onMounted(() => {
+	if (!products.value.length){
+		getProductData()
+	}
+})
+
 </script>
 <template>
-  <cos-layout>
     <div class="container">
       <div class="flex font-bold ml-4 mb-4">
       <div class="w-1/2 h-[520px] mr-8">
         <div class="flex gap-2">
           <div class="w-2/3">
-            <img class="w-full h-[520px] object-cover" :src="tabImage" alt="">
+            <img class="w-full h-[520px] object-cover" :src="cover" alt="">
           </div>
           <div class="w-1/3">
             <div class="flex flex-col">
@@ -61,7 +103,7 @@ console.log(product.value.title)
           </div>
         </div>
       <div class="w-1/2">
-        <h1 class="text-2xl text-center m-3 font-bold" v-if="tabTitle">{{ tabTitle }}</h1>
+        <h1 class="text-2xl text-center m-3 font-bold" v-if="title">{{ title }}</h1>
           <ul class="font-bold list-disc">
             <li>高科技前導技術，快速疏通肌脂通道，有效解決輕度肌膚屏障受損、敏感或暗沉</li>
             <li>無重力水感小分子，將修護油轉化至小於肌膚間質通道的奈米級微粒，有效滲透肌底</li>
@@ -76,7 +118,7 @@ console.log(product.value.title)
         <input class="w-[50px] text-center border-2" type="text" v-model="amount">
         <button @click="minus" class="list-none text-center w-[20px] h-[30px] bg-pink">-</button>
       </div>
-        <a-button class="bg-pink mr-2 font-bold" @click="changePage('/cart')">加入購物車</a-button>
+        <a-button class="bg-pink mr-2 font-bold" @click="addCart(product.id)">加入購物車</a-button>
         <a-button class="bg-pink font-bold" @click="changePage('/checkout')">立即購買</a-button>
         <a-button class="mt-3 hover:text-pink flex items-center">
           <template #icon>
@@ -87,5 +129,4 @@ console.log(product.value.title)
       </div>
     </div>
   </div>
-  </cos-layout>
 </template>

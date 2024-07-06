@@ -1,5 +1,4 @@
 <script setup>
-import CosLayout from '@/components/cosLayout/index.vue'
 import { ref, reactive } from 'vue';
 import aboutCard from '@/components/aboutCard/index.vue'
 
@@ -37,7 +36,6 @@ const form = reactive({
 </script>
 
 <template>
-	<cos-layout>
 	<div >
 		<div class="my-5 text-center">
 			<h1 class="font-bold text-2xl my-10">關於我們</h1>
@@ -58,9 +56,6 @@ const form = reactive({
       <button class="bg-black text-white p-1 rounded" type="submit">填好送出</button>
 	</div>
 	</div>
-</cos-layout>
-
-
 </template>
 
 <style scoped>

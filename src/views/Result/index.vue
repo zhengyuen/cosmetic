@@ -1,5 +1,4 @@
 <script setup>
-import CosLayout from '@/components/cosLayout/index.vue'
 import { useRouter } from 'vue-router';
 const router = useRouter()
 const changePage = (url) => {
@@ -7,7 +6,6 @@ const changePage = (url) => {
 }
 </script>
 <template>
-  <cos-layout>
   <a-result class="my-auto"
     status="success"
     title="您已成功下單"
@@ -15,8 +13,6 @@ const changePage = (url) => {
   >
     <template #extra>
       <a-button key="console" type="primary" @click="changePage('/products')">繼續購買</a-button>
-      <a-button key="buy">再買一次</a-button>
     </template>
   </a-result>
-  </cos-layout>
 </template>

@@ -38,7 +38,7 @@ const showModal = (bool) => {
 					<a-button @click='showModal(true)' class="cursor-pointer bg-secondaryYellow border-none text-base text-white  hover:!text-primaryYellow hover:bg-pink hover:scale-105">{{ title }}</a-button>
 				</div>
 			</div>
-    <a-modal v-model:open="open" :title="title" @ok="showModal(false)" :closable="false">
+    <a-modal v-model:open="open" :title="title" @ok="showModal(false)" :footer="null" :closable="false">
       <p>{{ desc }}</p>
     </a-modal>
 </template>

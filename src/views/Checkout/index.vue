@@ -1,25 +1,36 @@
 <script setup>
-import CosLayout from '@/components/cosLayout/index.vue'
 import { UserOutlined } from '@ant-design/icons-vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useProductStore } from '@/store/product';
 import { useRouter } from 'vue-router';
+
 const router = useRouter()
 const changePage = (url) => {
 	router.push(url)
 }
+const productStore = useProductStore()
+const cart = ref(productStore.cart)
+
+const totalPrize = computed(() => {
+	let price = 0
+	for (const item of productStore.cart) {
+		price += item.quantity * item.prize
+	}
+	return price
+})
+
 </script>
 <template>
-  <cos-layout>
-    <div class="container mx-auto">
+    <div class="container mx-auto ">
     <h1 class="fw-bold text-center font-bold text-2xl my-5">結帳</h1>
-    <div class="flex h-[150px] ml-10">
-      <h1 class="font-bold">訂單商品</h1>
-			<img class="w-[70px] h-[100px] mx-5 my-auto" src="https://0206hom-cosmetic.netlify.app/image/pexels-photo-4841481.webp" alt="">
-			<p class="my-auto ml-2 font-bold">極保濕組合</p>
+    <h1 class="font-bold ml-10">訂單商品</h1>
+    <div v-for="(item) in cart" :key="item.title" class="flex h-[150px] ml-10">
+			<img class="w-[70px] h-[100px] mx-5 my-auto" :src="item.cover" alt="">
+			<p class="my-auto ml-2 font-bold" v-if="cart.id === title">{{ item.title }}</p>
 			<div class="flex pl-1 my-auto">
-        <input class="w-[50px] h-[30px] text-center" type="text" value="1">
+        <input class="w-[50px] h-[30px] text-center" v-if="cart.id === quantity" type="text" >x {{ item.quantity }}
       </div>
-			<p class="my-auto ml-2">NT$1,069</p>
+			<p class="my-auto ml-5" v-if="cart.id === total">NT${{ item.prize * item.quantity }}</p>
     </div>
     <hr>
     <div class="ml-10 my-3">
@@ -35,11 +46,12 @@ const changePage = (url) => {
       </div>
 			<div class="text-right mr-3">
         <hr>
-        <p>商品總金額 NT $1,069</p>
-        <p>運費 NT $0</p>
-				<p>總付款金額 <span class="text-2xl"> NT $1,069</span></p>
+        <p>商品總金額 NT ${{ totalPrize }}</p>
+        <p v-if="totalPrize < 1200">運費 NT $ 60</p>
+        <p v-else>運費 NT $ 0</p>
+				<p v-if="totalPrize < 1200">總付款金額 <span class="text-2xl"> NT ${{ totalPrize += 60 }}</span></p>
+				<p v-else>總付款金額 <span class="text-2xl"> NT ${{ totalPrize += 0 }}</span></p>
 			<a-button class="bg-black text-white my-3"  @click="changePage('/result')">下訂單</a-button>
 		</div>
   </div>
-  </cos-layout>
 </template>
