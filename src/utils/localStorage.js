@@ -12,3 +12,11 @@ export const addCart = (item) => {
 export const getCart = () => {
   return JSON.parse(localStorage.getItem('cart')) || []
 }
+
+export const setFormData = (data) => {
+  localStorage.setItem('formData',JSON.stringify(data))
+}
+
+export const getFormData = () => {
+  return JSON.parse(localStorage.getItem('formData')) || []
+}

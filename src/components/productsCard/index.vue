@@ -29,11 +29,8 @@ const handelClick = () => {
 const imageClick = () => {
   emit('imageClick')
 }
-// const open = ref(false)
 
-// const showModal = (bool) => {
-//   open.value = bool;
-// };
+
 </script>
 <template>
       <div class="w-[240px] h-[500px] text-center">
@@ -43,7 +40,4 @@ const imageClick = () => {
 				<h6>{{ `NT$ ${prize}` }}</h6>
 				<a-button class="bg-black" type="primary" @click="handelClick">加入購物車</a-button>
 			</div>
-  <!-- <a-modal v-model:open="open" :title="title" @ok="showModal(false)" :closable="false">
-    <p>{{ desc }}</p>
-    </a-modal> -->
 </template>

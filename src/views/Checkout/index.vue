@@ -1,15 +1,18 @@
 <script setup>
 import { UserOutlined } from '@ant-design/icons-vue';
-import { ref, computed } from 'vue';
+import { ref, computed, reactive, watch, onMounted } from 'vue';
 import { useProductStore } from '@/store/product';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { setFormData, getFormData } from '@/utils/localStorage';
 
 const router = useRouter()
+const route = useRoute()
 const changePage = (url) => {
 	router.push(url)
 }
 const productStore = useProductStore()
 const cart = ref(productStore.cart)
+
 
 const totalPrize = computed(() => {
 	let price = 0
@@ -18,7 +21,66 @@ const totalPrize = computed(() => {
 	}
 	return price
 })
+console.log(totalPrize);
+const fare = computed(() => {
+  if (totalPrize.value < 1200){
+    return 60
+  } else {
+    return 0
+  }
+})
 
+const deliverMethod = ['超商配送', '郵局配送', '宅配到府']
+const invoiceType = ['二聯式發票(個人)', '三聯式發票(公司行號)', '捐贈發票']
+const payMethod = ['信用卡', '金融卡']
+
+const formData = ref(getFormData())
+
+
+onMounted(() => {
+  const defaultData = [
+      {
+        name: '',
+        phone: '',
+        email: '',
+        address: '',
+        deliverMethod: '',
+        invoiceType: '',
+        payment: '信用卡'
+      }
+    ]
+  if (!formData.value.length){
+    formData.value = defaultData
+    setFormData(defaultData)
+  }
+})
+const addFormData = () => {
+  const newFormData = [...formData.value, {
+        name: formData.value.name,
+        phone: formData.value.phone,
+        email: formData.value.email,
+        address: formData.value.address,
+        deliverMethod: formData.value.deliverMethod,
+        invoiceType: formData.value.invoiceType,
+        payment: formData.value.payment
+
+  }]
+  formData.value = newFormData
+  setFormData(newFormData)
+  changePage('/result')
+}
+const submit = () => {
+  const formData = getFormData()
+  console.log(formData)
+  const newFormData = formData.map(inputContent => {
+    if ( inputContent.id === Number(id)) {
+      return inputContent.name
+    }
+    return inputContent
+  })
+  setFormData(newFormData)
+// @click="changePage('/result')
+}
 </script>
 <template>
     <div class="container mx-auto ">
@@ -34,24 +96,53 @@ const totalPrize = computed(() => {
     </div>
     <hr>
     <div class="ml-10 my-3">
-      <h1 class="font-bold">寄送資訊</h1>
-      <span>賣家宅配</span><span class="ml-4">鄭XX (+886) 9XXXXXXX 106 臺北市大安區XXXXXXXX</span><br>
-      <span>電子發票</span><span class="ml-4">二聯式發票(個人) 會員載具</span>
-    </div>
+      <h1 class="font-bold">填寫寄送資訊</h1>
+      <form>
+        <div>
+          <label for="name">姓名</label>
+          <input v-model="formData.name" id="name" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded">
+        </div>
+        <div>
+          <label for="phone">電話</label>
+          <input v-model="formData.phone" id="phone" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input v-model="formData.email" id="email" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded">
+        </div>
+        <div>
+          <label for="address">地址</label>
+          <input v-model="formData.address" id="address" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded">
+        </div>
+        <div>
+          <label for="delivery">寄送方式</label>
+          <select v-model="formData.deliverMethod" id="delivery" class="mt-2 ml-2 border border-gray-500">
+            <option v-for="item in deliverMethod" :key="item" :value="item">{{ item }}</option>
+          </select>
+        </div>
+        <div>
+          <label for="invoice">電子發票類型</label>
+          <select v-model="formData.invoiceType" id="invoice" class="mt-2 ml-2 border border-gray-500">
+            <option v-for="item in invoiceType" :key="item" :value="item">{{ item }}</option>
+          </select>
+        </div>
+      </form>
+      </div>
 			<hr>
       <div class="ml-10 my-3">
       <h1 class="font-bold">付款方式</h1>
-      <a-button>信用卡</a-button>
-      <a-button class="ml-2">金融卡</a-button>
+      <a-button v-for="item in payMethod"
+      @click="formData.payment = item"
+      :key="item"
+      :class="['mr-2 last:mr-0', { 'border-2 border-yellow-300 border-solid': item === formData.payment }]"
+      >{{ item }}</a-button>
       </div>
 			<div class="text-right mr-3">
         <hr>
         <p>商品總金額 NT ${{ totalPrize }}</p>
-        <p v-if="totalPrize < 1200">運費 NT $ 60</p>
-        <p v-else>運費 NT $ 0</p>
-				<p v-if="totalPrize < 1200">總付款金額 <span class="text-2xl"> NT ${{ totalPrize += 60 }}</span></p>
-				<p v-else>總付款金額 <span class="text-2xl"> NT ${{ totalPrize += 0 }}</span></p>
-			<a-button class="bg-black text-white my-3"  @click="changePage('/result')">下訂單</a-button>
+        <p>運費 NT $ {{ fare }}</p>
+				<p>總付款金額 <span class="text-2xl"> NT ${{ totalPrize += fare }}</span></p>
+			<a-button @click="addFormData" class="bg-black text-white my-3">下訂單</a-button>
 		</div>
   </div>
 </template>

@@ -21,6 +21,7 @@ const cartAmount = computed(() => {
 	}
 	return amount
 })
+
 const token = computed(() => userStore.token)
 const menuList = ref([
 	{
@@ -63,38 +64,42 @@ const logout = () =>{
 
 
 <template>
-  <nav class="container mx-auto h-[76px]">
-		<div class="flex justify-between items-center">
-			<h1 class="text-4xl font-bold cursor-pointer" @click="changePage('/')">
-			Cosmetic
-			</h1>
-			<ul class="flex items-center">
-				<li v-for="item in menuList" :key="item.key" class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0" @click="changePage(item.key)">
-					<span v-if="item.name">{{ item.name }}</span>
-					<template v-if="item.icon">
-						<a-badge v-if="item.icon ==='cart'" :count="cartAmount" size="small">
-						<ShoppingCartOutlined class="text-lg" />
-						</a-badge>
-						<UserOutlined v-else />
-					</template>
-				</li>
-				<li v-if="!token" class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0"  @click="changePage('/login')">
-					登入
-				</li>
-				<li v-else class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0"  @click="logout">
-					登出
-				</li>
-			</ul>
-		</div>
-	</nav>
-		<slot />
-	<footer class="bg-footerColor">
-				<h6 class="text-center py-4">聯絡我們<br>信箱：cosmetic@gmail.com</h6>
-				<div class="flex justify-center">
-					<img class="w-[30px] h-[30px] my-3 mx-4" v-for="(item, idx) in footerImages" :key="idx" :src="item" :alt="idx">
-					</div>
-					<!-- <h6 class="text-right py-4">© 2024 Cosmetic All Right Reserved</h6> -->
-		</footer>
+  <div class="flex flex-col min-h-screen">
+    <nav class="container mx-auto h-[76px]">
+      <div class="flex justify-between items-center">
+        <h1 class="text-4xl font-bold cursor-pointer" @click="changePage('/')">
+        Cosmetic
+        </h1>
+        <ul class="flex items-center">
+          <li v-for="item in menuList" :key="item.key" class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0" @click="changePage(item.key)">
+            <span v-if="item.name">{{ item.name }}</span>
+            <template v-if="item.icon">
+              <a-badge v-if="item.icon ==='cart'" :count="cartAmount" size="small">
+              <ShoppingCartOutlined class="text-lg" />
+              </a-badge>
+              <UserOutlined v-else />
+            </template>
+          </li>
+          <li v-if="!token" class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0"  @click="changePage('/login')">
+            登入
+          </li>
+          <li v-else class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0"  @click="logout">
+            登出
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="flex-1">
+      <slot />
+    </div>
+    <footer class="bg-footerColor">
+          <h6 class="text-center py-4">聯絡我們<br>信箱：cosmetic@gmail.com</h6>
+          <div class="flex justify-center">
+            <img class="w-[30px] h-[30px] my-3 mx-4" v-for="(item, idx) in footerImages" :key="idx" :src="item" :alt="idx">
+            </div>
+            <!-- <h6 class="text-right py-4">© 2024 Cosmetic All Right Reserved</h6> -->
+      </footer>
+  </div>
 </template>
 
 <style scoped>

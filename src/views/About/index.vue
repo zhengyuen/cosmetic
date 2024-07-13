@@ -52,12 +52,11 @@ const form = reactive({
 	<div class="w-[500px] h-[200px] mx-auto mb-2 pt-8">
 		<h1 class="text-center mb-2">免費拿試用品</h1>
 	<div class=" mx-auto text-center">
-  <span class="mr-2"></span> <input class="w-[200px] h-8 border-2 rounded" placeholder="請輸入您的信箱" />
+  <span class="mr-2"></span> <input class="w-[200px] h-8 border-2 rounded pl-2" placeholder="請輸入您的信箱" />
       <button class="bg-black text-white p-1 rounded" type="submit">填好送出</button>
 	</div>
 	</div>
 </template>
 
 <style scoped>
-
 </style>

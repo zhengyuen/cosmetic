@@ -12,18 +12,29 @@ export const useProductStore = defineStore(
     const setCart = (products) => {
       cart.value = products
     }
-
+    const collection = ref([])
+    const setCollection = (products) => {
+      collection.value = products
+    }
     const orders = ref([])
     const setOrders = (orders) => {
       orders.value = orders
     }
+    const formData = ref([])
+    const setFormData = (products) => {
+      checkout.value = products
+    }
     return {
+      collection,
+      setCollection,
       products,
       cart,
       orders,
+      formData,
       setProducts,
       setCart,
-      setOrders
+      setOrders,
+      setFormData
     }
   },
   {

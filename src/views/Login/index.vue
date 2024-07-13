@@ -54,9 +54,9 @@ onMounted (()=> {
 				<h2 class="mt-5 mb-3 pt-5 font-bold">會員登入</h2>
 						<form @submit="submit" class="m-5 p-5 " action="">
 							<label for="username" class="mr-3">信箱</label>
-							<input v-model="formData.username" placeholder="電子郵件地址"  class="mb-3 w-52 border-2 border-solid rounded  py-1 pl-1" id="username"><br>
+							<input v-model="formData.username" placeholder="電子郵件地址"  class="focus:outline-0 mb-3 w-52 border-2 border-solid rounded  py-1 pl-1" id="username"><br>
 							<label for="password" class="mr-3">密碼</label>
-							<input type="password" v-model="formData.password" placeholder="密碼"  class="mb-3 w-52 border-2 border-solid rounded px-2 py-1" id="password"><br>
+							<input type="password" v-model="formData.password" placeholder="密碼"  class="focus:outline-0 mb-3 w-52 border-2 border-solid rounded px-2 py-1" id="password"><br>
 
 
 						<button

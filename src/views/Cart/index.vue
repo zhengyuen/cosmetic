@@ -10,7 +10,6 @@ const router = useRouter()
 const changePage = (url) => {
 	router.push(url)
 }
-
 const totalPrize = computed(() => {
 	let price = 0
 	for (const item of productStore.cart) {
@@ -54,11 +53,11 @@ const columns = [
 const adjustQuantity = (id, num) => {
 	cart.value = cart.value.map(product => {
 		if (product.id === id) {
-			if(product.quantity > 0 || ( product.quantity === 0 && num > 0)) {
+			if (product.quantity > 1 || ( product.quantity === 1 && num > 0)) {
 			product.quantity += num
 			}
 			return product
-		}if(product.quantity === 0){
+		}if (product.quantity === 0){
 			const newCart = productStore.cart.filter(product => product.id !== id)
 			productStore.setCart(newCart)
 			cart.value = newCart
@@ -109,7 +108,6 @@ const deleteProduct = (id) => {
 			<a-button class="bg-black text-white mt-3 mb-3" @click="changePage('/checkout')" >前往結帳</a-button><br>
 		</div>
 		<div class="border-2 text-center justify-content-center border-dotted">
-			<div class="">
 				<div class=" justify-content-center ">
 					<h3>購物須知</h3>
 					<ul class="list-unstyled  ">
@@ -123,7 +121,6 @@ const deleteProduct = (id) => {
 						<li >信箱：cosmetic@gmail.com</li>
 					</ul>
 				</div>
-			</div>
 			</div>
 </template>
 
