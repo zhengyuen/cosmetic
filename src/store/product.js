@@ -21,8 +21,8 @@ export const useProductStore = defineStore(
       orders.value = orders
     }
     const formData = ref([])
-    const setFormData = (products) => {
-      checkout.value = products
+    const setFormData = (data) => {
+      formData.value = data
     }
     return {
       collection,

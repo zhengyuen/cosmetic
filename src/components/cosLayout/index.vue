@@ -1,7 +1,7 @@
 <script setup>
-import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons-vue';
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ShoppingCartOutlined, UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
+import { ref, computed, reactive, h } from 'vue';
+import { useRouter,useRoute } from 'vue-router';
 import { useUserStore } from '@/store/user';
 import { message } from 'ant-design-vue';
 import { useProductStore } from '@/store/product';
@@ -10,6 +10,7 @@ const productStore = useProductStore()
 
 const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute()
 const changePage = (url) => {
 	router.push(url)
 }
@@ -26,23 +27,28 @@ const token = computed(() => userStore.token)
 const menuList = ref([
 	{
 		key: '/',
-		name: '首頁'
+		name: '首頁',
+    label: '首頁'
 	},
 	{
-		key: '/about',
-		name: '關於我們'
+    key: '/about',
+		name: '關於我們',
+    label: '關於我們'
 	},
 	{
-		key: '/products',
-		name: '產品介紹'
+    key: '/products',
+		name: '產品介紹',
+    label: '產品介紹'
 	},
 	{
-		key: '/cart',
-		icon: 'cart'
+    key: '/cart',
+		icons: 'cart',
+    icon: () => h(ShoppingCartOutlined)
 	},
 	{
-		key: '/member',
-		icon: 'member'
+    key: '/member',
+		icons: 'member',
+    icon: () => h(UserOutlined)
 	},
 	// {
 	// 	key: '/login',
@@ -56,10 +62,17 @@ const footerImages = ref([
 	'https://cdn-icons-png.flaticon.com/128/167/167649.png'
 
 ])
-const logout = () =>{
+const logout = () => {
 	userStore.setToken('')
 	message.success('登出成功')
 }
+const situation = reactive({
+  collapsed: false,
+  selectedKeys: ['']
+});
+const toggleCollapsed = () => {
+  situation.collapsed = !situation.collapsed;
+};
 </script>
 
 
@@ -70,17 +83,24 @@ const logout = () =>{
         <h1 class="text-4xl font-bold cursor-pointer" @click="changePage('/')">
         Cosmetic
         </h1>
-        <ul class="flex items-center">
-          <li v-for="item in menuList" :key="item.key" class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0" @click="changePage(item.key)">
+        <ul class="flex items-center ul">
+          <li v-for="item in menuList"
+          :key="item.key"
+          :class="{'text-navColor': route.fullPath === item.key }"
+          class="flex items-center mr-4 leading-[76px] cursor-pointer font-bold  last:mr-0" @click="changePage(item.key)">
             <span v-if="item.name">{{ item.name }}</span>
-            <template v-if="item.icon">
-              <a-badge v-if="item.icon ==='cart'" :count="cartAmount" size="small">
-              <ShoppingCartOutlined class="text-lg" />
+            <template v-if="item.icons">
+              <a-badge v-if="item.icons ==='cart'" :count="cartAmount" size="small">
+              <ShoppingCartOutlined class="text-large"
+              :class="{ 'text-navColor': route.fullPath === item.key }"
+            />
               </a-badge>
               <UserOutlined v-else />
             </template>
           </li>
-          <li v-if="!token" class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0"  @click="changePage('/login')">
+          <li v-if="!token"
+          :class="{ 'text-navColor': route.fullPath === '/login' }"
+          class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer font-bold last:mr-0"  @click="changePage('/login')">
             登入
           </li>
           <li v-else class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0"  @click="logout">
@@ -89,13 +109,31 @@ const logout = () =>{
         </ul>
       </div>
     </nav>
+    <div class="nav2">
+      <a-button style="margin-bottom: 10px;" class=" bg-black text-white" @click="toggleCollapsed">
+        <MenuUnfoldOutlined v-if="situation.collapsed" />
+        <MenuFoldOutlined v-else />
+      </a-button>
+        <a-menu
+        mode="inline"
+        theme="dark"
+        v-model:selectedKeys="situation.selectedKeys"
+        :hidden="situation.collapsed"
+        :router="true"
+        :items="menuList"
+        :inline-collapsed="situation.collapsed"
+        @click="changePage(`${situation.selectedKeys}`)"
+      >
+      </a-menu>
+      </div>
+
     <div class="flex-1">
       <slot />
     </div>
     <footer class="bg-footerColor">
           <h6 class="text-center py-4">聯絡我們<br>信箱：cosmetic@gmail.com</h6>
           <div class="flex justify-center">
-            <img class="w-[30px] h-[30px] my-3 mx-4" v-for="(item, idx) in footerImages" :key="idx" :src="item" :alt="idx">
+            <img class="w-[30px] h-[30px] my-3 mx-4 cursor-pointer" v-for="(item, idx) in footerImages" :key="idx" :src="item" :alt="idx">
             </div>
             <!-- <h6 class="text-right py-4">© 2024 Cosmetic All Right Reserved</h6> -->
       </footer>
@@ -103,5 +141,44 @@ const logout = () =>{
 </template>
 
 <style scoped>
+
+li{
+  font-size: 18px;
+}
+.nav2{
+  display: none;
+}
+@media screen and (max-width: 576px) {
+	/* 設備小於 576px */
+  h1{
+    position:relative;
+    ;
+    z-index: 2;
+    top:15px;
+  }
+  li{
+    font-size: 12px;
+    line-height: 30px;
+  }
+  .ul{
+  flex-direction: column;
+  z-index: 2;
+  width:70px;
+  height: 20px;
+  overflow: hidden;
+  visibility: hidden;
+}
+.ul:hover{
+  overflow: visible;
+  visibility: visible;
+}
+.nav2{
+display: inline-block;
+z-index:2;
+position: absolute;
+right: 0px;
+top: 20px;
+}
+}
 
 </style>

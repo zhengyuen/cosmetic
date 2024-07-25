@@ -1,8 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { ref, computed } from 'vue'
+import { message } from 'ant-design-vue';
 import { useProductStore } from '@/store/product';
-import { setFormData, getFormData } from '@/utils/localStorage';
+
 
 const router = useRouter()
 const changePage = (url) => {
@@ -12,7 +13,6 @@ const changePage = (url) => {
 const productStore = useProductStore()
 const cart = ref(productStore.cart)
 const formData = ref(productStore.formData)
-console.log(formData.value)
 const totalPrize = computed(() => {
 	let price = 0
 	for (const item of productStore.cart) {
@@ -28,18 +28,6 @@ const fare = computed(() => {
   }
 })
 
-// const checkout = ref(productStore.checkout)
-// const resultPage = () => {
-//   const result = getFormData()
-//   const newResult = result.map(toResult => {
-//     if () {
-//       return formData
-//     }
-//   })
-//   return formData
-// }
-// setFormData(result)
-// result
 </script>
 <template>
   <h1 class="font-bold ml-10">訂單商品</h1>
@@ -59,18 +47,19 @@ const fare = computed(() => {
         </div>
     <hr>
     <div class="ml-10 my-3">
-      <h1 class="font-bold">寄送資訊</h1>
-      <div >
-        <p class="" ></p>
+      <h1 class="font-bold">收件人資訊</h1>
+      <hr>
+      <div class="mt-3 w-50 ml-5">
+        <p>姓名:  {{ formData.name }}</p>
+        <p>電話:  {{ formData.phone }}</p>
+        <p>Email:  {{ formData.email }}</p>
+        <p>地址:  {{ formData.address }}</p>
+        <p>寄送方式:  {{ formData.deliverMethod }}</p>
+        <p>電子發票類型:  {{ formData.invoiceType }}</p>
+        <p>付款方式:  {{ formData.payment }}</p>
       </div>
+      <div class="text-right mr-3">
+          <a-button class="bg-black text-white text-right mt-2" @click="changePage('/products')">繼續購買</a-button>
+        </div>
       </div>
-  <a-result class="my-auto"
-    status="success"
-    title="您已成功下單"
-    sub-title="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
-  >
-    <template #extra>
-      <a-button key="console" type="primary" @click="changePage('/products')">繼續購買</a-button>
-    </template>
-  </a-result>
 </template>

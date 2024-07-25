@@ -17,6 +17,7 @@ const totalPrize = computed(() => {
 	}
 	return price
 })
+
 const columns = [
 	{
 		key:'cover',
@@ -69,7 +70,6 @@ const deleteProduct = (id) => {
 	const newCart = productStore.cart.filter(product => product.id !== id)
 	productStore.setCart(newCart)
 	cart.value = newCart
-
 }
 </script>
 
@@ -96,7 +96,7 @@ const deleteProduct = (id) => {
       </div>
 			</template>
 			<template v-if="column.key === 'operation'" >
-						<a-button @click="deleteProduct(record.id)">刪除</a-button>
+					<a-button @click="deleteProduct(record.id)">刪除</a-button>
 			</template>
 		</template>
 	</a-table>

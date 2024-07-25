@@ -29,7 +29,7 @@ defineProps({
 			<div class="w-1/2 text-center p-4 relative">
 				<div class="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
 				<h5 class="mb-5">{{ title }}</h5>
-				<h4 class="text-pink w-full">{{ desc }}</h4>
+				<h4 class="text-pink w-full ">{{ desc }}</h4>
 				</div>
 			</div>
 		</div>

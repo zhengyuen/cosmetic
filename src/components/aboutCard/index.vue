@@ -31,7 +31,7 @@ const showModal = (bool) => {
 			<div class="w-[200px] h-[200px] card-btn">
 				<img class="object-cover w-full h-full"
         :src="image"
-        alt="" >
+        alt="image" >
 				</div>
 				<div :class="{ 'border-left justify-center pl-4':
         !isReverse, 'border-right justify-center pr-4': isReverse }" class="card-btn w-[200px] h-[200px] flex text-center items-center ">

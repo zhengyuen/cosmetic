@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 // import { addCart, getCart } from '@/utils/localStorage.js'
 import { useProductStore } from '@/store/product';
 import { HeartFilled } from '@ant-design/icons-vue';
@@ -7,30 +7,26 @@ import { useRouter, useRoute } from 'vue-router';
 import { message } from 'ant-design-vue';
 
 
-const productStore = useProductStore()
-const router = useRouter()
-const route = useRoute()
-const productId = ref(Number(route.params.id))
+const productStore = useProductStore();
+const router = useRouter();
+const route = useRoute();
+const productId = ref(Number(route.params.id));
 const changePage = (url) => {
-	router.push(url)
-}
+	router.push(url);
+};
 // const products = ref(JSON.parse(localStorage.getItem('products') || []))
-const products = ref(productStore.products || [])
-const product = computed(() => products.value.find(product => product.id === productId.value))
-const tabImages = ref(product.value.images || [])
-const title = ref(product.value.title)
-const tabPrize = ref(product.value.prize)
-console.log(products)
-console.log(productId.value)
+const products = ref(productStore.products);
+const product = computed(() => products.value.find(product => product.id === productId.value));
+const tabImages = computed(() => product.value?.images || []);
+const title = computed(() => product.value?.title || '');
+const tabPrize = computed(() => product.value?.prize || 0);
 
-console.log(product.value.title)
-  const tabImageIndex = ref(0)
+  const tabImageIndex = ref(0);
   const changeImage = (index) => {
     tabImageIndex.value = index
   }
-  const cover = computed(() => tabImages.value[tabImageIndex.value])
- console.log(cover)
-  const amount = ref(1)
+  const cover = computed(() => tabImages.value[tabImageIndex.value]);
+  const amount = ref(1);
   const plus = () => {
     amount.value += 1
   }
@@ -39,17 +35,16 @@ console.log(product.value.title)
       amount.value -= 1
     }
   }
-  console.log(amount.value)
 
 const addCart = () => {
-  if (!productStore.cart.length) { // 購物車沒東西
-    console.log('add');
-    productStore.setCart([{
-      ...product.value,
-      quantity: amount.value
-    }])
-    return
-  }
+  // if (!productStore.cart.length) { // 購物車沒東西
+  //   console.log('add');
+  //   productStore.setCart([{
+  //     ...product.value,
+  //     quantity: amount.value
+  //   }])
+  //   return
+  // }
   const hasProduct = productStore.cart.some(product => product.id === productId.value)
   if (hasProduct) { //cart 有產品
     const newCart = productStore.cart.map(product	=> {
@@ -62,7 +57,7 @@ const addCart = () => {
       productStore.setCart(newCart)
   } else { // cart 沒有產品
     productStore.setCart([...productStore.cart, {
-      ...product,
+      ...product.value,
       quantity: amount.value
     }])
   }
@@ -81,11 +76,10 @@ const collect = () => {
   }
 }
 
-onMounted(() => {
-	if (!products.value.length){
-		getProductData()
-	}
-})
+watch(() => productStore.products, (newVal) => {
+  products.value = newVal;
+});
+
 </script>
 <template>
   <div class="container">

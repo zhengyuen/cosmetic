@@ -1,7 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { productApi } from '@/api/products'
 import { message } from 'ant-design-vue';
 import { useProductStore } from '@/store/product';
 import ProductsCard from '@/components/productsCard/index.vue'
@@ -14,25 +13,19 @@ const changePage = (url) => {
 	router.push(url)
 }
 
+watch((productStore.products))
 const products = ref(productStore.products || [])
-console.log(products.value);
-const getProductData = async() => {
-	const { code, data } = await productApi.getProducts()
-	if (code === 200){
-		products.value = data
-    productStore.setProducts(data)
-	}
-}
+
 
 const addCart = (id) => {
 const product = productStore.products.find(product => product.id === id)
-if (!productStore.cart) { // 購物車沒東西
-	productStore.setCart([{
-		...product,
-		quantity: 1
-	}])
-	return
-}
+// if (!productStore.cart) { // 購物車沒東西
+// 	productStore.setCart([{
+// 		...product,
+// 		quantity: 1
+// 	}])
+// 	return
+// }
 
 
 const hasProduct = productStore.cart.some(product => product.id === id)
@@ -53,13 +46,9 @@ if (hasProduct) { //cart 有產品
 }
 message.success('已加入購物車')
 }
-
-onMounted(() => {
-	if (!products.value.length){
-		getProductData()
-	}
-})
-
+watch(() => productStore.products, (newVal) => {
+  products.value = newVal;
+});
 </script>
 <template>
 
@@ -105,5 +94,4 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
 </style>
