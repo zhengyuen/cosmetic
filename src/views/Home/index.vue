@@ -25,7 +25,7 @@ const homeCards = ref([
 
 <template>
 <a-carousel class="w-full mb-20" autoplay>
-    <div v-for="(item, idx) in carouseImage" :key="idx" >
+    <div v-for="(item, idx) in carouseImage" :key="idx">
 			<img class="w-full h-[450px] object-cover" :src="item"/>
 		</div>
   </a-carousel>
@@ -43,5 +43,4 @@ const homeCards = ref([
 </template>
 
 <style scoped>
-
 </style>
