@@ -5,6 +5,9 @@ import { useProductStore } from '@/store/product';
 import { HeartFilled } from '@ant-design/icons-vue';
 import { useRouter, useRoute } from 'vue-router';
 import { message } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 
 const productStore = useProductStore();
@@ -37,14 +40,6 @@ const tabPrize = computed(() => product.value?.prize || 0);
   }
 
 const addCart = () => {
-  // if (!productStore.cart.length) { // 購物車沒東西
-  //   console.log('add');
-  //   productStore.setCart([{
-  //     ...product.value,
-  //     quantity: amount.value
-  //   }])
-  //   return
-  // }
   const hasProduct = productStore.cart.some(product => product.id === productId.value)
   if (hasProduct) { //cart 有產品
     const newCart = productStore.cart.map(product	=> {
@@ -115,14 +110,14 @@ watch(() => productStore.products, (newVal) => {
           <input class="w-[50px] text-center border-2" type="text" v-model="amount">
           <button @click="minus" class="list-none text-center w-[20px] h-[30px] bg-pink">-</button>
         </div>
-        <a-button class="bg-pink mr-2 font-bold" @click="addCart">加入購物車</a-button>
-        <a-button class="bg-pink font-bold" @click="changePage('/checkout')">立即購買</a-button>
+        <a-button class="bg-pink mr-2 font-bold" @click="addCart">{{ t('add_cart') }}</a-button>
+        <a-button class="bg-pink font-bold" @click="changePage('/checkout')">{{ t('buy_now') }}</a-button>
         <a-button @click="collect"
           :class="['mt-3 hover:text-pink flex items-center', { 'bg-pink text-red-400 font-bold': isCollect }]">
           <template #icon>
             <HeartFilled />
           </template>
-          <span>加到最愛</span>
+          <span>{{ t('add_favorites') }}</span>
         </a-button>
       </div>
     </div>

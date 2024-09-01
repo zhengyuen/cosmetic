@@ -5,6 +5,9 @@ import { useRouter,useRoute } from 'vue-router';
 import { useUserStore } from '@/store/user';
 import { message } from 'ant-design-vue';
 import { useProductStore } from '@/store/product';
+import { useI18n } from 'vue-i18n';
+
+const { t, locale } = useI18n()
 
 const productStore = useProductStore()
 
@@ -13,6 +16,17 @@ const router = useRouter()
 const route = useRoute()
 const changePage = (url) => {
 	router.push(url)
+}
+
+const languageList = {
+  zh: 'zh_TW',
+  en: 'en_US'
+}
+const isEng = computed(() => locale.value === languageList.en)
+const changeLanguage = () => {
+  const lang = locale.value === languageList.zh ? languageList.en : languageList.zh
+  locale.value = lang
+  localStorage.setItem('language', lang)
 }
 
 const cartAmount = computed(() => {
@@ -27,17 +41,17 @@ const token = computed(() => userStore.token)
 const menuList = ref([
 	{
 		key: '/',
-		name: '首頁',
+		name: t('home'),
     label: '首頁'
 	},
 	{
     key: '/about',
-		name: '關於我們',
+		name: t('about'),
     label: '關於我們'
 	},
 	{
     key: '/products',
-		name: '產品介紹',
+		name: t('product'),
     label: '產品介紹'
 	},
 	{
@@ -73,10 +87,16 @@ const situation = reactive({
 const toggleCollapsed = () => {
   situation.collapsed = !situation.collapsed;
 };
+
+const isDarkTheme = computed(() => userStore.isDarkTheme)
+const changeTheme = (isDark) => {
+  userStore.setIsDarkTheme(isDark)
+}
 </script>
 
 
 <template>
+  <div :class="{ darkMode : isDarkTheme}">
   <div class="flex flex-col min-h-screen">
     <nav class="container mx-auto h-[76px]">
       <div class="flex justify-between items-center">
@@ -91,7 +111,10 @@ const toggleCollapsed = () => {
             <span v-if="item.name">{{ item.name }}</span>
             <template v-if="item.icons">
               <a-badge v-if="item.icons ==='cart'" :count="cartAmount" size="small">
-              <ShoppingCartOutlined class="text-large"
+              <ShoppingCartOutlined v-if="isDarkTheme" class="text-white text-large"
+              :class="{ 'text-navColor': route.fullPath === item.key }"
+            />
+            <ShoppingCartOutlined v-else class="text-black text-large"
               :class="{ 'text-navColor': route.fullPath === item.key }"
             />
               </a-badge>
@@ -101,11 +124,30 @@ const toggleCollapsed = () => {
           <li v-if="!token"
           :class="{ 'text-navColor': route.fullPath === '/login' }"
           class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer font-bold last:mr-0"  @click="changePage('/login')">
-            登入
+            {{ t('login') }}
           </li>
           <li v-else class="flex items-center mr-4 text-lg leading-[76px] cursor-pointer last:mr-0"  @click="logout">
-            登出
+            {{ t('logout') }}
           </li>
+          <li class="cursor-pointer">
+          <button @click="changeTheme(false)" v-if="isDarkTheme" class="text-white px-2 py-1 rounded">
+          <i class="fa-solid fa-circle-half-stroke "></i>
+          </button>
+          <button
+          @click="changeTheme(true)" v-else class="px-2 py-1 rounded">
+          <i class="fa-solid fa-circle-half-stroke "></i>
+          </button>
+          <button @click="changeLanguage" v-if="isEng" class="px-2 py-1 rounded">
+          <i class="fa-solid fa-language"></i>
+          </button>
+          <button
+          @click="changeLanguage" v-else class="px-2 py-1 rounded">
+        <i class="fa-solid fa-language"></i>
+          </button>
+
+          </li>
+        <li>
+      </li>
         </ul>
       </div>
     </nav>
@@ -130,13 +172,14 @@ const toggleCollapsed = () => {
     <div class="flex-1">
       <slot />
     </div>
-    <footer class="bg-footerColor">
-          <h6 class="text-center py-4">聯絡我們<br>信箱：cosmetic@gmail.com</h6>
+    <footer class="bg-footerColor" :class="{'bg-white text-black' :isDarkTheme}">
+          <h6 class="text-center py-4">{{ t('contact') }}<br>{{ t('email') }}：cosmetic@gmail.com</h6>
           <div class="flex justify-center">
             <img class="w-[30px] h-[30px] my-3 mx-4 cursor-pointer" v-for="(item, idx) in footerImages" :key="idx" :src="item" :alt="idx">
             </div>
             <!-- <h6 class="text-right py-4">© 2024 Cosmetic All Right Reserved</h6> -->
       </footer>
+  </div>
   </div>
 </template>
 

@@ -1,8 +1,9 @@
 <script setup>
 import CosLayout from '@/components/cosLayout/index.vue'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { productApi } from '@/api/products'
 import { useProductStore } from '@/store/product';
+
 
 const productStore = useProductStore()
 

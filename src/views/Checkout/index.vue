@@ -4,6 +4,9 @@ import { ref, computed, reactive } from 'vue';
 import { useProductStore } from '@/store/product';
 import { useRouter, useRoute } from 'vue-router';
 import { message } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 const router = useRouter()
 const route = useRoute()
@@ -62,45 +65,46 @@ const addFormData = () => {
 </script>
 <template>
     <div class="container mx-auto">
-    <h1 class="fw-bold text-center font-bold text-2xl my-5">結帳</h1>
-    <h1 class="font-bold ml-10">訂單商品</h1>
+    <h1 class="fw-bold text-center font-bold text-2xl my-5">{{ t('checkout') }}</h1>
+    <h1 class="font-bold ml-10">{{ t('order_product') }}</h1>
     <div v-for="(item) in cart" :key="item.title" class="flex h-[150px] ml-10">
 			<img class="w-[70px] h-[100px] mx-5 my-auto" :src="item.cover" alt="">
 			<p class="my-auto ml-2 font-bold" v-if="cart.id === title">{{ item.title }}</p>
 			<div class="flex pl-1 my-auto">
-        <input class="w-[50px] h-[30px] text-center" v-if="cart.id === quantity" type="text" >x {{ item.quantity }}
+        <div class="w-[50px] h-[30px] text-center" v-if="cart.id === quantity" type="text" >x {{ item.quantity }}
+      </div>
       </div>
 			<p class="my-auto ml-5" v-if="cart.id === total">NT${{ item.prize * item.quantity }}</p>
     </div>
     <hr>
     <div class="ml-10 my-3 ">
-      <h1 class="font-bold">填寫寄送資訊</h1>
+      <h1 class="font-bold">{{ t('write_info') }}</h1>
       <form>
         <div>
-          <label for="name" class="text-sm">姓名</label>
-          <input v-model="formData.name" id="name" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded">
+          <label for="name" class="text-sm">{{ t('name') }}</label>
+          <input v-model="formData.name" id="name" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded text-black">
         </div>
         <div>
-          <label for="phone" class="text-sm">電話</label>
-          <input v-model="formData.phone" id="phone" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded">
+          <label for="phone" class="text-sm">{{ t('cellphone') }}</label>
+          <input v-model="formData.phone" id="phone" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded text-black">
         </div>
         <div>
-          <label for="email" class="text-sm">Email</label>
-          <input v-model="formData.email" id="email" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded">
+          <label for="email" class="text-sm">{{ t('email') }}</label>
+          <input v-model="formData.email" id="email" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded text-black">
         </div>
         <div>
-          <label for="address" class="text-sm">地址</label>
-          <input v-model="formData.address" id="address" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded">
+          <label for="address" class="text-sm">{{ t('address') }}</label>
+          <input v-model="formData.address" id="address" type="text" class="ml-2 pl-2 mt-2 focus:outline-0 border border-black rounded text-black">
         </div>
         <div>
-          <label for="delivery" class="text-sm">寄送方式</label>
-          <select v-model="formData.deliverMethod" id="delivery" class="mt-2 ml-2 border border-gray-500">
+          <label for="delivery" class="text-sm">{{ t('deliver_method') }}</label>
+          <select v-model="formData.deliverMethod" id="delivery" class="mt-2 ml-2 border border-gray-500 text-black">
             <option v-for="item in deliverMethod" :key="item" :value="item">{{ item }}</option>
           </select>
         </div>
         <div>
-          <label for="invoice" class="text-sm">電子發票類型</label>
-          <select v-model="formData.invoiceType" id="invoice" class="mt-2 ml-2 border border-gray-500">
+          <label for="invoice" class="text-sm">{{ t('invoice_type') }}</label>
+          <select v-model="formData.invoiceType" id="invoice" class="mt-2 ml-2 border border-gray-500 text-black">
             <option v-for="item in invoiceType" :key="item" :value="item">{{ item }}</option>
           </select>
         </div>
@@ -108,21 +112,21 @@ const addFormData = () => {
       </div>
 			<hr>
       <div class="ml-10 my-3 ">
-      <h1 class="font-bold">付款方式</h1>
+      <h1 class="font-bold">{{ t('pay_method') }}</h1>
       <a-button v-for="item in payMethod"
       @click="formData.payment = item"
       :key="item"
       :class="['mr-2 last:mr-0', { 'border-2 border-yellow-300 border-solid': item === formData.payment }]"
       :value="item"
       >{{ item }}</a-button>
-      <p class="ml-3 mt-2 text-sm text-red-400">* 以上資料皆為必填選項</p>
+      <p class="ml-3 mt-2 text-sm text-red-400">* {{ t('warn') }}</p>
       </div>
 			<div class="text-right mr-3">
         <hr>
-        <p>商品總金額 NT ${{ totalPrize }}</p>
-        <p>運費 NT $ {{ fare }}</p>
-				<p>總付款金額 <span class="text-2xl"> NT ${{ totalPrize += fare }}</span></p>
-			<a-button @click="addFormData" class="bg-black text-white my-3  disabled:bg-modalGray disabled:text-white" type="submit" :disabled="!formData.name ||!formData.phone ||!formData.email ||!formData.address ||!formData.deliverMethod ||!formData.invoiceType ||!formData.payment">下訂單</a-button>
+        <p>{{ t('product_total') }}: NT ${{ totalPrize }}</p>
+        <p>{{ t('delivery_fee') }}: NT $ {{ fare }}</p>
+				<p>{{ t('total') }}: <span class="text-2xl"> NT ${{ totalPrize += fare }}</span></p>
+			<a-button @click="addFormData" class="bg-black text-white my-3  disabled:bg-modalGray disabled:text-white" type="submit" :disabled="!formData.name ||!formData.phone ||!formData.email ||!formData.address ||!formData.deliverMethod ||!formData.invoiceType ||!formData.payment">{{ t('submit') }}</a-button>
 		</div>
   </div>
 </template>
